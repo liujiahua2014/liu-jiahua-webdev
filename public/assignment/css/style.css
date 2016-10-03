@@ -27,3 +27,18 @@ p.navbar-text.pull-left {
 a:hover {
     text-decoration: none;
 }
+
+body {
+    padding-top: 60px;
+}
+
+body .v-divider{
+    left: 33%;
+    position: absolute;
+    margin-left:5px;
+    margin-right:5px;
+    width:1px;
+    height:100%;
+    border-left:1px solid #dddddd;
+    padding-top: 0px;
+}
