@@ -5,7 +5,7 @@
     </div>
 
     <h1>Register</h1>
-    <input ng-model="model.user.username"
+    <input ng-model="username"
            type="text"
            class="form-control"
            placeholder="username"/>
@@ -15,7 +15,7 @@
     <input type="password"
            class="form-control"
            placeholder="verify password"/>
-    <a ng-click="model.register(model.user)" class="btn btn-primary btn-block">Register</a>
+    <a ng-click="model.register(username, password)" class="btn btn-primary btn-block">Register</a>
     <a class="btn btn-danger btn-block"
        href="#/login">Cancel</a>
 </div>

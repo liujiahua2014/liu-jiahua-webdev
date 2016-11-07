@@ -28,17 +28,18 @@
                    class="form-control"
                    placeholder="100%"></textarea>
         </div>
-
-        <div class="form-group">
-            <label for="upload">Upload</label>
-            <input type="file"
-                   id="upload"
-                   class="form-control"
-                   placeholder="file"></textarea>
-        </div>
-
-        <a class="btn btn-primary btn-block">Upload Image</a>
-
-        <a ng-click="model.deleteWidget(model.wgid)" class="btn btn-danger btn-block">Delete</a>
     </form>
+
+    <form action="/api/uploads"  method="post" enctype="multipart/form-data">
+        <input  name="myFile"   type="file" class="form-control"/>
+        <input  name="width"    value="{{model.widget.width}}" style="display: none"/>
+        <input  name="uid" value="{{model.uid}}"   style="display: none"/>
+        <input  name="wid" value="{{model.wid}}"   style="display: none"/>
+        <input  name="pid" value="{{model.pid}}"   style="display: none"/>
+        <input  name="wgid" value="{{model.widget._id}}"   style="display: none"/>
+        <button type="submit"   class="btn btn-block btn-primary">Upload Image</button>
+    </form>
+
+    <a ng-click="model.deleteWidget()" class="btn btn-danger btn-block">Delete</a>
+
 </div>

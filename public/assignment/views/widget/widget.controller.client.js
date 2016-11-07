@@ -10,12 +10,16 @@
         vm.uid = parseInt($routeParams.uid);
         vm.wid = parseInt($routeParams.wid);
         vm.pid = parseInt($routeParams.pid);
-        vm.wgid = parseInt($routeParams.wgid);
         vm.getSafeHtml = getSafeHtml;
         vm.getSafeUrl = getSafeUrl;
 
         function init() {
-            vm.widgets = WidgetService.findWidgetsByPageId(vm.pid);
+            WidgetService
+                .findWidgetsByPage(vm.pid)
+                .success(function(widgets) {
+                    vm.widgets = widgets;
+                    // $("tbody").sortable();
+                });
         }
         init();
 
@@ -36,16 +40,27 @@
         vm.uid = parseInt($routeParams.uid);
         vm.wid = parseInt($routeParams.wid);
         vm.pid = parseInt($routeParams.pid);
-        vm.wgid = parseInt($routeParams.wgid);
         vm.createWidget = createWidget;
 
         function createWidget(widgetType) {
-            var widget = { "_id": 135, "pageId": vm.pid, "widgetType": widgetType, "size": null, "text": "sample", "width": null, "url": null};
-            if(WidgetService.createWidget(vm.pid, widget)) {
-                $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget/135");
-            } else {
-                vm.error = "Unable to create widget";
-            }
+                var widget = {
+                    _id : (new Date()).getTime(),
+                    pid: vm.pid,
+                    widgetType: widgetType,
+                    size: null,
+                    text: "sample",
+                    width: null,
+                    url: null
+                };
+
+                WidgetService
+                    .createWidget(vm.pid, widget)
+                    .success(function() {
+                        $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget/" + widget._id);
+                    })
+                    .error(function(error) {
+                        vm.error = "Unable to create widget";
+                    });
         }
     }
 
@@ -59,28 +74,34 @@
         vm.updateWidget = updateWidget;
 
         function init() {
-            vm.widget = WidgetService.findWidgetById(vm.wgid);
-            console.log(vm.widget);
+            WidgetService
+                .findWidgetById(vm.wgid)
+                .success(function(widget) {
+                    vm.widget = widget;
+                })
         }
         init();
 
-        function deleteWidget(widgetId) {
-            var result = WidgetService.deleteWidget(widgetId);
-            if(result) {
-                $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget");
-            } else {
-                vm.error = "Unable to delete widget";
-            }
+        function deleteWidget() {
+            WidgetService
+                .deleteWidget(vm.wgid)
+                .success(function() {
+                    $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget");
+                })
+                .error(function(error) {
+                    vm.error = "Unable to delete widget";
+                });
         }
 
-        function updateWidget(widgetId, text, size, width, url) {
-            var widget = { "_id": widgetId, "pageId": vm.widget.pageId, "size": size, "text": text, "width": width, "url": url};
-            var result = WidgetService.updateWidget(widgetId, widget);
-            if(result) {
-                $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget");
-            } else {
-                vm.error = "Unable to edit widget";
-            }
+        function updateWidget() {
+            WidgetService
+                .updateWidget(vm.widget)
+                .success(function() {
+                    $location.url("/user/" + vm.uid + "/website/" + vm.wid + "/page/" + vm.pid + "/widget");
+                })
+                .error(function(error) {
+                    vm.error = "Unable to edit widget";
+                });
         }
     }
 })();
