@@ -7,7 +7,7 @@
 
     function WebsiteListController($routeParams, WebsiteService) {
             var vm = this;
-            vm.uid = parseInt($routeParams.uid);
+            vm.uid = $routeParams.uid;
 
             function init() {
                 WebsiteService
@@ -22,7 +22,7 @@
 
         function NewWebsiteController($location, $routeParams, WebsiteService) {
             var vm = this;
-            vm.uid = parseInt($routeParams.uid);
+            vm.uid = $routeParams.uid;
             vm.createWebsite = createWebsite;
 
             function init() {
@@ -37,22 +37,24 @@
 
             function createWebsite(name, description) {
                 var website = {
-                    _id : (new Date()).getTime(),
                     name: name,
-                    uid: vm.uid
+                    description: description
                 };
                 WebsiteService
                     .createWebsite(vm.uid, website)
                     .success(function () {
                         $location.url("/user/"+vm.uid+"/website");
+                    })
+                    .error(function(error) {
+                        console.log(error);
                     });
             }
         }
 
         function EditWebsiteController($location, $routeParams, WebsiteService) {
             var vm = this;
-            vm.uid = parseInt($routeParams.uid);
-            vm.wid = parseInt($routeParams.wid);
+            vm.uid = $routeParams.uid;
+            vm.wid = $routeParams.wid;
             vm.deleteWebsite = deleteWebsite;
             vm.updateWebsite = updateWebsite;
 

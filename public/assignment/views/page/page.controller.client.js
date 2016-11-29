@@ -7,8 +7,8 @@
 
     function PageListController($routeParams, PageService) {
         var vm = this;
-        vm.uid = parseInt($routeParams.uid);
-        vm.wid = parseInt($routeParams.wid);
+        vm.uid = $routeParams.uid;
+        vm.wid = $routeParams.wid;
 
         function init() {
             PageService
@@ -23,8 +23,8 @@
 
     function NewPageController($location, $routeParams, PageService) {
         var vm = this;
-        vm.uid = parseInt($routeParams.uid);
-        vm.wid = parseInt($routeParams.wid);
+        vm.uid = $routeParams.uid;
+        vm.wid = $routeParams.wid;
         vm.createPage = createPage;
 
         function init() {
@@ -37,11 +37,10 @@
 
         init();
 
-        function createPage(name, description) {
+        function createPage(name, title) {
             var page = {
-                _id : (new Date()).getTime(),
                 name: name,
-                wid: vm.wid
+                title: title
             };
             PageService
                 .createPage(vm.wid, page)
@@ -53,9 +52,9 @@
 
     function EditPageController($location, $routeParams, PageService) {
         var vm = this;
-        vm.uid = parseInt($routeParams.uid);
-        vm.wid = parseInt($routeParams.wid);
-        vm.pid = parseInt($routeParams.pid);
+        vm.uid = $routeParams.uid;
+        vm.wid = $routeParams.wid;
+        vm.pid = $routeParams.pid;
         vm.deletePage = deletePage;
         vm.updatePage = updatePage;
 

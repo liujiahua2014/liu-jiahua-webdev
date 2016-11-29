@@ -32,6 +32,8 @@
 
     <form action="/api/uploads"  method="post" enctype="multipart/form-data">
         <input  name="myFile"   type="file" class="form-control"/>
+        <input  name="name"    value="{{model.widget.name}}" style="display: none"/>
+        <input  name="text"    value="{{model.widget.text}}" style="display: none"/>
         <input  name="width"    value="{{model.widget.width}}" style="display: none"/>
         <input  name="uid" value="{{model.uid}}"   style="display: none"/>
         <input  name="wid" value="{{model.wid}}"   style="display: none"/>
@@ -41,5 +43,6 @@
     </form>
 
     <a ng-click="model.deleteWidget()" class="btn btn-danger btn-block">Delete</a>
+    <a href="#/user/{{model.uid}}/website/{{model.wid}}/page/{{model.pid}}/widget/{{model.wgid}}/flickr" class="btn btn-danger btn-block">Flickr</a>
 
 </div>
