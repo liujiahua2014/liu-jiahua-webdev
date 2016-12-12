@@ -90,6 +90,10 @@
         }
 
         function updateWidget() {
+            if(vm.widget.name == null) {
+                vm.error = "Error!";
+                return;
+            }
             WidgetService
                 .updateWidget(vm.widget)
                 .success(function() {

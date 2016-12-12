@@ -30,10 +30,12 @@
                 New Page
             </a>
             <p class="navbar-text pull-right">
-                <a ng-click="model.createPage(model.page.name, model.page.title)" class="navbar-link">
+                <button form="pageForm"
+                        type="submit"
+                        ng-click="model.createPage(model.page.name, model.page.title)" class="navbar-link">
                   <span class="glyphicon glyphicon-ok">
                   </span>
-                </a>
+                </button>
             </p>
         </div>
 
@@ -56,13 +58,21 @@
     </div>
 
     <div class="col-xs-12 col-sm-8">
-        <form>
+        <div ng-if="model.error" class="alert alert-danger" role="alert">
+            {{model.error}}
+        </div>
+
+        <form name="pageForm" id="pageForm" novalidate>
             <div class="form-group">
                 <label for="page-name">Name</label>
                 <input ng-model="model.page.name" type="text"
+                       name="name"
                        class="form-control"
                        id="page-name"
-                       placeholder="Page Name">
+                       placeholder="Page Name" required/>
+            </div>
+            <div ng-show="pageForm.$submitted && pageForm.name.$invalid">
+                Page name is required
             </div>
             <div class="form-group">
                 <label for="page-title">Title</label>

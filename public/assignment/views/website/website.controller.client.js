@@ -46,7 +46,7 @@
                         $location.url("/user/"+vm.uid+"/website");
                     })
                     .error(function(error) {
-                        console.log(error);
+                        vm.error = error;
                     });
             }
         }
@@ -73,13 +73,33 @@
             init();
 
             function deleteWebsite() {
-                WebsiteService.deleteWebsite(vm.wid);
-                $location.url("/user/"+vm.uid+"/website");
+                WebsiteService
+                    .deleteWebsite(vm.wid)
+                    .then(
+                        function(response) {
+                            $location.url ("/user/"+vm.uid+"/website");
+                        },
+                        function(err) {
+                            vm.error = err;
+                        }
+                    );
             }
 
             function updateWebsite() {
-                WebsiteService.updateWebsite(vm.website);
-                $location.url("/user/"+vm.uid+"/website");
+                if(vm.website.name == null) {
+                    vm.error = "Error!";
+                    return;
+                }
+                WebsiteService
+                    .updateWebsite(vm.website)
+                    .then(
+                        function(response) {
+                            $location.url ("/user/"+vm.uid+"/website");
+                        },
+                        function(err) {
+                            vm.error = err;
+                        }
+                    );
             }
     }
 })();

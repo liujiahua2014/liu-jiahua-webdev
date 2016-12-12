@@ -6,9 +6,11 @@
             </a>
         </div>
         <div class="navbar-text pull-right" style="margin-right: 0px;">
-            <a ng-click="model.updateWidget()">
+            <button form="widgetForm"
+                    type="submit"
+                    ng-click="model.updateWidget()">
                 <span class="glyphicon glyphicon-ok"></span>
-            </a>
+            </button>
         </div>
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
@@ -18,7 +20,9 @@
     </div>
 </nav>
 
-
+<div ng-if="model.error" class="alert alert-danger" role="alert">
+    {{model.error}}
+</div>
 <div ng-include="'views/widget/widget-'+model.widget.type+'.view.client.html'"></div>
 
 

@@ -5,7 +5,11 @@
 
     function UserService($http) {
         var api = {
+            login: login,
+            logout: logout,
+            // register: register,
             createUser: createUser,
+            findCurrentUser: findCurrentUser,
             findUserById: findUserById,
             findUserByUsername: findUserByUsername,
             findUserByCredentials: findUserByCredentials,
@@ -14,12 +18,35 @@
         };
         return api;
 
-        function createUser(username, password) {
-            var user = {
-                username: username,
-                password: password
-            };
+        function login(user) {
+            // var user = {
+            //     username: username,
+            //     password: password
+            // };
+
+            return $http.post("/api/login", user);
+        }
+
+        function logout() {
+            return $http.post("/api/logout");
+        }
+
+        // function register(username, password) {
+        //     var user = {
+        //         username: username,
+        //         password: password
+        //     };
+        //
+        //     return $http.post("/api/register", user);
+        // }
+
+        function createUser(user) {
             return $http.post("/api/user", user);
+        }
+
+        function findCurrentUser() {
+            var url = "/api/user";
+            return $http.get(url);
         }
 
         function findUserById(id) {

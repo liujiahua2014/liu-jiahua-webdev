@@ -9,12 +9,12 @@
         var vm = this;
         vm.login = login;
 
-        function login(username, password) {
+        function login(user) {
             UserService
-                .findUserByCredentials(username, password)
+                .login(user)
                 .success(function(user){
                     if(user === '0') {
-                        vm.error = "No such user";
+                        vm.alert = "No such user";
                     } else {
                         $location.url("/user/" + user._id);
                     }
@@ -29,9 +29,14 @@
         var vm = this;
         vm.register = register;
 
-        function register(username, password) {
+        function register(user) {
+            if(user.username == null || user.password == null || user.password !== user.password2) {
+                vm.alert = "Error!";
+                return;
+            }
+
             UserService
-                .createUser(username, password)
+                .createUser(user)
                 .success(function(user){
                     $location.url("/user/"+user._id);
                 })
@@ -41,14 +46,15 @@
         }
     }
 
-    function ProfileController($routeParams, UserService) {
+    function ProfileController($location, $routeParams, UserService) {
         var vm = this;
-        vm.uid = $routeParams["uid"];
+        // vm.uid = $routeParams["uid"];
         vm.updateUser = updateUser;
+        vm.logout = logout;
 
         function init() {
             UserService
-                .findUserById(vm.uid)
+                .findCurrentUser()
                 .success(function(user){
                     if(user != '0') {
                         vm.user = user;
@@ -62,6 +68,13 @@
 
         function updateUser() {
             UserService.updateUser(vm.user);
+        }
+
+        function logout() {
+            UserService.logout()
+                .success(function(){
+                    $location.url("/login");
+                });
         }
     }
 })();

@@ -46,6 +46,9 @@
                 .createPage(vm.wid, page)
                 .success(function () {
                     $location.url("/user/"+vm.uid+"/website/"+vm.wid+"/page");
+                })
+                .error(function(error) {
+                    vm.error = error;
                 });
         }
     }
@@ -78,8 +81,19 @@
         }
 
         function updatePage() {
-            PageService.updatePage(vm.page);
-            $location.url("/user/"+vm.uid+"/website/"+vm.wid+"/page");
+            if(vm.page.name == null) {
+                vm.error = "Error!";
+                return;
+            }
+            PageService
+                .updatePage(vm.page)
+                .success(function() {
+                    $location.url("/user/"+vm.uid+"/website/"+vm.wid+"/page");
+                })
+                .error(function(err) {
+                    vm.error = err;
+                })
+
         }
     }
 })();
