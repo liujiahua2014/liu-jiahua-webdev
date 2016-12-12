@@ -1,5 +1,16 @@
 <div class="container-fluid">
-    <form>
+    <form name="widgetForm" id="widgetForm" novalidate>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input ng-model="model.widget.name" type="text"
+                   name="name"
+                   class="form-control"
+                   id="name"
+                   placeholder="Name" required/>
+        </div>
+        <div ng-show="widgetForm.$submitted && widgetForm.name.$invalid">
+            Widget name is required
+        </div>
         <div ng-model="model.widget.text"
              text-angular
              ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],
